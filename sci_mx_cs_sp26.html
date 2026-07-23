@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SJDC Spring 2026 — Instructor Summary</title>
+<script>
+(function(){
+  try {
+    var stored = localStorage.getItem('sjdc-theme');
+    var theme = stored || ((window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  } catch (e) {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue-900:#0f2c54;
+    --blue-800:#1a4480;
+    --blue-600:#2a5ba8;
+    --blue-100:#e7edf7;
+    --red-700:#a80d26;
+    --red-600:#c8102e;
+    --red-100:#fbe6e9;
+    --gold-700:#8a5a00;
+    --gold-100:#fbedd2;
+    --ink-900:#151a23;
+    --ink-700:#3d4451;
+    --ink-500:#6b7280;
+    --paper-0:#ffffff;
+    --paper-50:#f6f7fa;
+    --paper-100:#eef0f4;
+    --line:#dde1e8;
+    --accent:#0f2c54;
+    --accent-mid:#2a5ba8;
+    --chip-bg:#e7edf7;
+    --chip-text:#1a4480;
+    --card-shadow:rgba(15,44,84,.28);
+    --mono:'JetBrains Mono', ui-monospace, monospace;
+    --sans:'Inter', system-ui, sans-serif;
+  }
+  :root[data-theme="dark"]{
+    --ink-900:#e9edf5;
+    --ink-700:#c1c8d6;
+    --ink-500:#8b93a6;
+    --paper-0:#161b26;
+    --paper-50:#0c0f16;
+    --paper-100:#212938;
+    --line:#2b3345;
+    --accent:#7fb0f2;
+    --accent-mid:#5f9adf;
+    --chip-bg:#1d2c47;
+    --chip-text:#a9c7f2;
+    --card-shadow:rgba(0,0,0,.45);
+    --red-100:#3a1620;
+    --red-700:#f2a5b2;
+    --gold-100:#3a2c08;
+    --gold-700:#f0c674;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper-50);
+    color:var(--ink-900);
+    font-family:var(--sans);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    transition:background .2s ease, color .2s ease;
+  }
+  ::selection{background:var(--blue-100);color:var(--blue-900);}
+
+  /* ===== App shell ===== */
+  .app-shell{display:flex;min-height:100vh;}
+  .sidebar{
+    width:224px;flex:0 0 224px;
+    background:linear-gradient(180deg,var(--blue-900) 0%,#0c2344 100%);
+    color:#dbe6f6;position:sticky;top:0;height:100vh;
+    display:flex;flex-direction:column;padding:22px 18px;
+    overflow-y:auto;
+  }
+  .brand{display:flex;align-items:center;gap:11px;padding:2px 4px 22px;border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:18px;}
+  .brand-mark{
+    width:34px;height:34px;border-radius:9px;background:var(--red-600);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:13px;flex:0 0 34px;
+  }
+  .brand-text{display:flex;flex-direction:column;line-height:1.25;}
+  .brand-text strong{font-size:13.5px;color:#fff;font-weight:700;}
+  .brand-text span{font-size:11px;color:#9fb4d6;}
+  .side-nav{display:flex;flex-direction:column;gap:2px;}
+  .side-link{
+    display:flex;align-items:center;gap:10px;color:#c3d3ec;text-decoration:none;
+    font-size:13.5px;font-weight:600;padding:9px 11px;border-radius:8px;transition:background .12s,color .12s;
+  }
+  .side-link .dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.5;}
+  .side-link:hover{background:rgba(255,255,255,.08);color:#fff;}
+  .side-link.active{background:rgba(255,255,255,.13);color:#fff;}
+  .side-link.active .dot{background:var(--red-600);opacity:1;}
+  .side-foot{margin-top:auto;padding-top:16px;border-top:1px solid rgba(255,255,255,.12);display:flex;flex-direction:column;gap:3px;}
+  .side-foot-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:#7f96bd;}
+  .side-foot-value{font-family:var(--mono);font-size:11.5px;color:#c3d3ec;word-break:break-all;}
+  .app-main{flex:1 1 auto;min-width:0;}
+
+  .theme-toggle{
+    display:flex;align-items:center;gap:9px;width:100%;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+    border-radius:999px;padding:6px 10px 6px 6px;cursor:pointer;margin-top:14px;
+  }
+  .theme-toggle:hover{background:rgba(255,255,255,.1);}
+  .theme-toggle-track{
+    position:relative;width:34px;height:19px;border-radius:999px;
+    background:rgba(255,255,255,.18);flex:0 0 34px;transition:background .18s;
+  }
+  .theme-toggle-thumb{
+    position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;
+    background:#fff;transition:transform .18s;display:flex;align-items:center;justify-content:center;
+    font-size:9px;line-height:1;
+  }
+  .theme-toggle.is-dark .theme-toggle-track{background:var(--red-600);}
+  .theme-toggle.is-dark .theme-toggle-thumb{transform:translateX(15px);}
+  .theme-toggle-text{font-size:12.5px;font-weight:600;color:#dbe6f6;}
+
+  @media (max-width:920px){
+    .theme-toggle{width:auto;margin-top:0;flex:0 0 auto;}
+  }
+
+  /* ===== AI assistant ===== */
+  .ai-trigger{
+    display:flex;align-items:center;gap:10px;width:100%;margin-top:6px;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+    border-radius:8px;padding:9px 11px;cursor:pointer;color:#fff;
+    font-family:var(--sans);font-size:13.5px;font-weight:600;text-align:left;
+  }
+  .ai-trigger:hover{background:rgba(255,255,255,.11);}
+  .ai-trigger .ai-dot{
+    width:16px;height:16px;border-radius:50%;background:var(--red-600);
+    display:flex;align-items:center;justify-content:center;flex:0 0 16px;font-size:9px;
+  }
+  .ai-backdrop{
+    position:fixed;inset:0;background:rgba(8,12,20,.45);z-index:39;
+    opacity:0;pointer-events:none;transition:opacity .18s;
+  }
+  .ai-backdrop.open{opacity:1;pointer-events:auto;}
+  .ai-panel{
+    position:fixed;top:0;left:0;height:100vh;width:440px;max-width:92vw;
+    background:var(--paper-0);border-right:1px solid var(--line);
+    box-shadow:16px 0 40px -20px rgba(0,0,0,.35);
+    display:flex;flex-direction:column;z-index:40;overflow:hidden;
+    transform:translateX(-110%);transition:transform .22s cubic-bezier(.16,.8,.3,1);
+  }
+  .ai-panel.open{transform:translateX(0);}
+  .ai-panel-head{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:16px 16px 14px;border-bottom:1px solid var(--line);flex:0 0 auto;
+  }
+  .ai-panel-head h3{margin:0;font-size:14.5px;color:var(--ink-900);display:flex;align-items:center;gap:8px;}
+  .ai-panel-head .ai-dot{width:8px;height:8px;border-radius:50%;background:var(--red-600);}
+  .ai-panel-head p{margin:2px 0 0;font-size:11.5px;color:var(--ink-500);}
+  .ai-close{
+    border:none;background:var(--paper-100);color:var(--ink-700);width:26px;height:26px;
+    border-radius:7px;cursor:pointer;font-size:15px;line-height:1;flex:0 0 auto;
+  }
+  .ai-close:hover{background:var(--line);}
+  .ai-messages{flex:1 1 auto;min-height:0;min-width:0;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;}
+  .ai-empty{color:var(--ink-500);font-size:13px;line-height:1.6;}
+  .ai-suggest{display:flex;flex-direction:column;gap:6px;margin-top:12px;}
+  .ai-suggest button{
+    text-align:left;font-family:var(--sans);font-size:12.5px;color:var(--chip-text);
+    background:var(--chip-bg);border:none;border-radius:8px;padding:8px 10px;cursor:pointer;
+  }
+  .ai-suggest button:hover{filter:brightness(0.96);}
+  .ai-msg{max-width:88%;font-size:13.5px;line-height:1.5;padding:9px 12px;border-radius:12px;white-space:pre-wrap;}
+  .ai-msg.user{align-self:flex-end;background:var(--accent);color:#fff;border-bottom-right-radius:3px;}
+  .ai-msg.assistant{align-self:flex-start;background:var(--paper-100);color:var(--ink-900);border-bottom-left-radius:3px;}
+  .ai-msg.error{align-self:flex-start;background:var(--red-100);color:var(--red-700);border-bottom-left-radius:3px;}
+  .ai-typing{align-self:flex-start;display:flex;gap:4px;padding:10px 12px;}
+  .ai-typing span{width:6px;height:6px;border-radius:50%;background:var(--ink-500);opacity:.5;animation:ai-blink 1.1s infinite;}
+  .ai-typing span:nth-child(2){animation-delay:.15s;}
+  .ai-typing span:nth-child(3){animation-delay:.3s;}
+  @keyframes ai-blink{0%,80%,100%{opacity:.3;transform:translateY(0);}40%{opacity:1;transform:translateY(-2px);}}
+  .ai-input-row{
+    flex:0 0 auto;display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--line);align-items:flex-end;
+  }
+  .ai-input-row textarea{
+    flex:1 1 auto;resize:none;font-family:var(--sans);font-size:13.5px;color:var(--ink-900);
+    background:var(--paper-50);border:1px solid var(--line);border-radius:9px;padding:9px 11px;
+    max-height:90px;line-height:1.4;
+  }
+  .ai-input-row textarea:focus{outline:none;border-color:var(--accent-mid);}
+  .ai-send{
+    flex:0 0 auto;background:var(--accent);color:#fff;border:none;border-radius:9px;
+    width:38px;height:38px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;
+  }
+  .ai-send:disabled{opacity:.45;cursor:not-allowed;}
+  .ai-send:not(:disabled):hover{filter:brightness(1.08);}
+
+  @media (max-width:640px){
+    .ai-panel{width:100%;max-width:100%;}
+  }
+
+  @supports (height: 100dvh){
+    .sidebar{height:100dvh;}
+    .ai-panel{height:100dvh;}
+  }
+
+  @media (max-width:920px){
+    .app-shell{flex-direction:column;}
+    .sidebar{width:auto;flex:none;position:static;height:auto;flex-direction:row;align-items:center;padding:14px 16px;gap:16px;overflow-x:auto;}
+    .brand{border-bottom:none;margin-bottom:0;padding:0;flex:0 0 auto;}
+    .side-nav{flex-direction:row;gap:4px;}
+    .side-foot{display:none;}
+  }
+
+  .topband{
+    background:linear-gradient(135deg,var(--blue-900) 0%,var(--blue-800) 62%,var(--blue-600) 100%);
+    color:#fff;position:relative;overflow:hidden;
+  }
+  .topband::after{
+    content:"";position:absolute;inset:0;
+    background-image:repeating-linear-gradient(90deg, rgba(255,255,255,.045) 0 1px, transparent 1px 88px);
+    pointer-events:none;
+  }
+  .topband-inner{max-width:1120px;margin:0 auto;padding:36px 28px 28px;position:relative;}
+  .eyebrow-row{
+    display:flex;align-items:center;gap:10px;font-family:var(--mono);
+    font-size:12.5px;letter-spacing:.06em;color:#bcd0ee;margin-bottom:14px;
+  }
+  .eyebrow-dot{width:7px;height:7px;border-radius:50%;background:var(--red-600);box-shadow:0 0 0 3px rgba(200,16,46,.28);}
+  .topband h1{font-size:clamp(26px,4vw,38px);font-weight:800;margin:0 0 8px;letter-spacing:-0.01em;}
+  .topband p.sub{margin:0;max-width:640px;color:#d6e1f2;font-size:15px;}
+  .term-tag{
+    display:inline-flex;align-items:center;gap:8px;margin-top:18px;
+    font-family:var(--mono);font-size:12px;background:rgba(255,255,255,.09);
+    border:1px solid rgba(255,255,255,.18);padding:7px 12px;border-radius:999px;color:#e8eefb;
+  }
+
+  main{max-width:1120px;margin:0 auto;padding:0 28px 70px;}
+  section{margin-top:40px;scroll-margin-top:20px;}
+  #overview{scroll-margin-top:20px;}
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:16px;flex-wrap:wrap;}
+  .section-head h2{font-size:19px;font-weight:700;margin:0;display:flex;align-items:center;gap:10px;}
+  .section-head h2 .idx{font-family:var(--mono);font-size:12.5px;color:var(--accent-mid);background:var(--chip-bg);border-radius:6px;padding:3px 7px;}
+  .section-head .desc{color:var(--ink-500);font-size:13.5px;max-width:460px;}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:-50px;position:relative;z-index:2;}
+  .stat-card{background:var(--paper-0);border:1px solid var(--line);border-radius:12px;padding:16px 16px 14px;box-shadow:0 10px 22px -14px rgba(15,44,84,.28);}
+  .stat-card .label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-500);font-weight:600;margin-bottom:8px;}
+  .stat-card .value{font-family:var(--mono);font-weight:700;font-size:24px;color:var(--accent);display:flex;align-items:baseline;gap:5px;}
+  .stat-card .value small{font-size:12px;font-weight:600;color:var(--ink-500);font-family:var(--sans);}
+  .stat-card .foot{margin-top:5px;font-size:11.5px;color:var(--ink-500);}
+  @media (max-width:980px){ .stat-grid{grid-template-columns:repeat(2,1fr);margin-top:20px;} }
+
+  .chart-card{background:var(--paper-0);border:1px solid var(--line);border-radius:12px;padding:20px 22px 18px;}
+  .bar-row{display:grid;grid-template-columns:170px 1fr 130px;align-items:center;gap:12px;padding:7px 0;border-bottom:1px solid var(--paper-100);}
+  .bar-row:last-child{border-bottom:none;}
+  .bar-row .instr-name{font-size:13px;font-weight:600;color:var(--ink-700);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .bar-row .instr-sub{display:block;font-family:var(--mono);font-size:10.5px;font-weight:400;color:var(--ink-500);margin-top:1px;}
+  .bar-track{position:relative;height:18px;background:var(--paper-100);border-radius:5px;overflow:hidden;}
+  .bar-fill{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:linear-gradient(90deg,var(--accent-mid),var(--accent));transition:width .8s cubic-bezier(.16,.8,.3,1);width:0;}
+  .bar-meta{font-family:var(--mono);font-size:11.5px;color:var(--ink-700);text-align:right;white-space:nowrap;}
+  .bar-meta b{color:var(--accent);}
+
+  /* ===== Charts grid / Donut ===== */
+  .charts-grid{display:grid;grid-template-columns:320px 1fr;gap:16px;align-items:stretch;}
+  @media (max-width:920px){ .charts-grid{grid-template-columns:1fr;} }
+  .donut-card{display:flex;flex-direction:column;}
+  .donut-header{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;}
+  .donut-back{
+    font-family:var(--sans);font-size:12px;font-weight:700;color:var(--chip-text);
+    background:var(--chip-bg);border:none;padding:5px 10px;border-radius:999px;cursor:pointer;
+  }
+  .donut-back:hover{filter:brightness(0.95);}
+  .donut-crumb{font-size:12.5px;color:var(--ink-500);font-weight:600;}
+  .donut-wrap{position:relative;display:flex;justify-content:center;margin:8px 0 4px;}
+  .donut-wrap svg{max-width:100%;height:auto;}
+  .donut-slice{transition:opacity .15s;}
+  .donut-slice:hover{opacity:.85;}
+  .donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;text-align:center;}
+  .donut-center-value{font-family:var(--mono);font-weight:700;font-size:24px;color:var(--accent);}
+  .donut-center-label{font-size:10.5px;color:var(--ink-500);text-transform:uppercase;letter-spacing:.05em;max-width:120px;}
+  .donut-legend{list-style:none;margin:14px 0 0;padding:14px 0 0;border-top:1px dashed var(--line);display:flex;flex-direction:column;gap:2px;max-height:230px;overflow-y:auto;}
+  .legend-item{display:flex;align-items:center;gap:9px;padding:6px 6px;border-radius:7px;font-size:12.5px;}
+  .legend-item .legend-name{flex:1 1 auto;color:var(--ink-700);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .legend-item .legend-count{font-family:var(--mono);font-size:11.5px;color:var(--ink-500);}
+  .legend-item[style*="cursor:pointer"]:hover{background:var(--paper-50);}
+
+  .controls{
+    display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+    background:var(--paper-0);border:1px solid var(--line);border-radius:12px;
+    padding:14px 16px;margin-bottom:14px;
+  }
+  .controls input[type="search"]{
+    flex:1 1 200px;min-width:160px;font-family:var(--sans);font-size:13.5px;
+    padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--paper-50);
+  }
+  .controls select{
+    font-family:var(--sans);font-size:13.5px;padding:9px 10px;border:1px solid var(--line);
+    border-radius:8px;background:var(--paper-50);color:var(--ink-700);
+  }
+  .controls .count-readout{margin-left:auto;font-family:var(--mono);font-size:12.5px;color:var(--ink-500);white-space:nowrap;}
+
+  .table-wrap{background:var(--paper-0);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  .table-scroll{overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;font-size:13px;min-width:760px;}
+  thead th{
+    position:sticky;top:0;background:var(--blue-900);color:#eaf0fb;text-align:left;
+    font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;padding:11px 14px;
+    font-weight:600;cursor:pointer;white-space:nowrap;user-select:none;
+  }
+  thead th .arrow{opacity:.55;font-size:10px;margin-left:4px;}
+  thead th.active{background:var(--blue-800);}
+  tbody td{padding:9px 14px;border-bottom:1px solid var(--paper-100);color:var(--ink-700);white-space:nowrap;}
+  tbody tr:hover{background:var(--paper-50);}
+  td.num, th.num{font-family:var(--mono);}
+  .fill-pill{font-family:var(--mono);font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;display:inline-block;}
+  .fill-high{background:#e4f2e9;color:#1b7a43;}
+  .fill-mid{background:var(--gold-100);color:var(--gold-700);}
+  .fill-low{background:var(--red-100);color:var(--red-700);}
+  .subject-chip{
+    font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--chip-text);
+    background:var(--chip-bg);padding:2px 6px;border-radius:5px;margin-right:3px;display:inline-block;
+  }
+
+  footer{max-width:1120px;margin:0 auto;padding:0 28px 46px;color:var(--ink-500);font-size:12px;}
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">SJ</div>
+      <div class="brand-text">
+        <strong>Delta College</strong>
+        <span>Spring 2026 Term Report</span>
+      </div>
+    </div>
+    <nav class="side-nav">
+      <a class="side-link active" href="#overview"><span class="dot"></span>Overview</a>
+      <a class="side-link" href="#chart-section"><span class="dot"></span>Subjects</a>
+      <a class="side-link" href="#table-section"><span class="dot"></span>Instructors</a>
+    </nav>
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle light and dark mode">
+      <span class="theme-toggle-track"><span class="theme-toggle-thumb"></span></span>
+      <span class="theme-toggle-text" id="theme-toggle-text">Light</span>
+    </button>
+    <button id="ai-trigger" class="ai-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+      <span class="ai-dot">&#10022;</span> Ask about this data
+    </button>
+    <div class="side-foot">
+      <span class="side-foot-label">Dataset</span>
+      <span class="side-foot-value">SJDC_Spring_2026_Term_Report_clean.xlsx</span>
+    </div>
+  </aside>
+
+  <div class="ai-backdrop" id="ai-backdrop"></div>
+  <div class="ai-panel" id="ai-panel" role="dialog" aria-label="Ask about this data" aria-hidden="true">
+    <div class="ai-panel-head">
+      <div>
+        <h3><span class="ai-dot"></span>Ask about this data</h3>
+        <p>Answers are grounded in this term report only.</p>
+      </div>
+      <button class="ai-close" id="ai-close" type="button" aria-label="Close assistant panel">&times;</button>
+    </div>
+    <div class="ai-messages" id="ai-messages">
+      <div class="ai-empty" id="ai-empty">
+        Ask a question about the Spring 2026 schedule &mdash; instructors, subjects, enrollment, or fill rates.
+        <div class="ai-suggest">
+          <button type="button" data-q="Which instructor has the highest fill rate, and which has the lowest?">Highest and lowest fill rate?</button>
+          <button type="button" data-q="How many sections and how many students does the CS subject have?">Sections &amp; enrollment for CS?</button>
+          <button type="button" data-q="Which subject has the most sections this term?">Which subject has the most sections?</button>
+        </div>
+      </div>
+    </div>
+    <div class="ai-input-row">
+      <textarea id="ai-input" rows="1" placeholder="Ask a question&hellip;"></textarea>
+      <button class="ai-send" id="ai-send" type="button" aria-label="Send question">&#10148;</button>
+    </div>
+  </div>
+
+  <div class="app-main">
+<header class="topband">
+  <div class="topband-inner">
+    <div class="eyebrow-row"><span class="eyebrow-dot"></span> SPRING 2026 &middot; SCHEDULE OF CLASSES</div>
+    <h1>Instructor Teaching Summary</h1>
+    <p class="sub">Sections, enrollment, and fill rate by instructor of record, drawn from the cleaned Spring 2026 term report.</p>
+    <div class="term-tag">TERM 2263 &nbsp;·&nbsp; 51 INSTRUCTORS &nbsp;·&nbsp; 181 ENROLLMENT SECTIONS</div>
+  </div>
+</header>
+
+<main>
+
+  <div class="stat-grid" id="overview">
+    <div class="stat-card">
+      <div class="label">Instructors</div>
+      <div class="value" id="stat-instructors">&mdash;</div>
+      <div class="foot">with an active section</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Sections</div>
+      <div class="value" id="stat-sections">&mdash;</div>
+      <div class="foot">enrollment sections of record</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Total Enrolled</div>
+      <div class="value" id="stat-enrolled">&mdash;</div>
+      <div class="foot">students across all sections</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Total Capacity</div>
+      <div class="value" id="stat-capacity">&mdash;</div>
+      <div class="foot">seats scheduled</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Fill Rate</div>
+      <div class="value" id="stat-fillrate">&mdash;</div>
+      <div class="foot">enrolled &divide; capacity</div>
+    </div>
+  </div>
+
+  <section id="chart-section">
+    <div class="section-head">
+      <h2><span class="idx">01</span> Subject Overview</h2>
+      <div class="desc">Click a subject in the donut to see who teaches it and filter the roster below.</div>
+    </div>
+    <div class="charts-grid">
+      <div class="chart-card donut-card">
+        <div class="donut-header">
+          <button id="donut-back" class="donut-back" hidden>&larr; All Subjects</button>
+          <span id="donut-crumb" class="donut-crumb">All Subjects</span>
+        </div>
+        <div class="donut-wrap">
+          <svg id="donut-svg" viewBox="0 0 240 240" width="240" height="240" role="img" aria-label="Subject distribution donut chart"></svg>
+          <div class="donut-center">
+            <div class="donut-center-value" id="donut-center-value">&mdash;</div>
+            <div class="donut-center-label" id="donut-center-label">Sections</div>
+          </div>
+        </div>
+        <ul class="donut-legend" id="donut-legend"></ul>
+      </div>
+      <div class="chart-card">
+        <div class="section-head" style="margin-bottom:12px;">
+          <h2 style="font-size:15px;">Top Instructors by Enrollment</h2>
+        </div>
+        <div id="chart-bars"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="table-section">
+    <div class="section-head">
+      <h2><span class="idx">02</span> All Instructors</h2>
+      <div class="desc">Sortable, searchable summary for all 51 instructors of record.</div>
+    </div>
+
+    <div class="controls">
+      <input type="search" id="search-box" placeholder="Search instructor name&hellip;" aria-label="Search instructors">
+      <select id="subject-filter" aria-label="Filter by subject">
+        <option value="">All subjects</option>
+      </select>
+      <div class="count-readout" id="count-readout">&mdash;</div>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th data-key="Instructor">Instructor <span class="arrow"></span></th>
+              <th data-key="Subjects">Subjects <span class="arrow"></span></th>
+              <th data-key="Courses" class="num">Courses <span class="arrow"></span></th>
+              <th data-key="Sections" class="num">Sections <span class="arrow"></span></th>
+              <th data-key="Enrolled" class="num">Enrolled <span class="arrow"></span></th>
+              <th data-key="Capacity" class="num">Capacity <span class="arrow"></span></th>
+              <th data-key="FillRate" class="num">Fill Rate <span class="arrow"></span></th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Source: SJDC_Spring_2026_Term_Report_clean.xlsx. Counts reflect &ldquo;Enrollment Section&rdquo; rows only (the enrollment-of-record component for each class), so paired lecture/lab components aren't double-counted. Cancelled and tentative sections, which carry no assigned instructor, are excluded.
+</footer>
+  </div>
+</div>
+
+<script>
+const INSTRUCTOR_DATA = [{"Instructor": "Li Zhang", "Sections": 7, "Enrolled": 293, "Capacity": 311, "Waitlisted": 0, "Subjects": ["CS", "CSP"], "Courses": 5, "FillRate": 94.2}, {"Instructor": "Jacek Kostyrko", "Sections": 6, "Enrolled": 272, "Capacity": 300, "Waitlisted": 0, "Subjects": ["ASTRO", "MATH", "STAT"], "Courses": 4, "FillRate": 90.7}, {"Instructor": "Master Maumalanga", "Sections": 7, "Enrolled": 262, "Capacity": 315, "Waitlisted": 0, "Subjects": ["CS", "CSP"], "Courses": 4, "FillRate": 83.2}, {"Instructor": "Dustin Tsai", "Sections": 7, "Enrolled": 253, "Capacity": 290, "Waitlisted": 0, "Subjects": ["GEOG"], "Courses": 5, "FillRate": 87.2}, {"Instructor": "Anthony Pacheco", "Sections": 6, "Enrolled": 231, "Capacity": 243, "Waitlisted": 0, "Subjects": ["CS", "CSC"], "Courses": 3, "FillRate": 95.1}, {"Instructor": "Luis Bustamante", "Sections": 6, "Enrolled": 222, "Capacity": 260, "Waitlisted": 0, "Subjects": ["CS", "CSP"], "Courses": 3, "FillRate": 85.4}, {"Instructor": "Omhier Khan", "Sections": 6, "Enrolled": 220, "Capacity": 255, "Waitlisted": 0, "Subjects": ["CS"], "Courses": 3, "FillRate": 86.3}, {"Instructor": "Robert Knudsen", "Sections": 7, "Enrolled": 200, "Capacity": 208, "Waitlisted": 0, "Subjects": ["BIOL"], "Courses": 3, "FillRate": 96.2}, {"Instructor": "Jason Broyles", "Sections": 5, "Enrolled": 194, "Capacity": 200, "Waitlisted": 0, "Subjects": ["MATH", "STAT"], "Courses": 3, "FillRate": 97.0}, {"Instructor": "Gurmukh Singh", "Sections": 5, "Enrolled": 191, "Capacity": 200, "Waitlisted": 0, "Subjects": ["MATH", "STAT"], "Courses": 4, "FillRate": 95.5}, {"Instructor": "Nick Bykov", "Sections": 5, "Enrolled": 175, "Capacity": 190, "Waitlisted": 0, "Subjects": ["MATH", "STAT"], "Courses": 4, "FillRate": 92.1}, {"Instructor": "Jeffrey Bender", "Sections": 6, "Enrolled": 167, "Capacity": 174, "Waitlisted": 0, "Subjects": ["BIOL"], "Courses": 2, "FillRate": 96.0}, {"Instructor": "Daniel Birmingham", "Sections": 6, "Enrolled": 159, "Capacity": 186, "Waitlisted": 0, "Subjects": ["PHYSC"], "Courses": 4, "FillRate": 85.5}, {"Instructor": "Joshua Bradley", "Sections": 5, "Enrolled": 150, "Capacity": 150, "Waitlisted": 0, "Subjects": ["BIOL"], "Courses": 2, "FillRate": 100.0}, {"Instructor": "Christopher Williams", "Sections": 4, "Enrolled": 144, "Capacity": 150, "Waitlisted": 0, "Subjects": ["MATH", "STAT"], "Courses": 3, "FillRate": 96.0}, {"Instructor": "Amir Assadi-Rad", "Sections": 5, "Enrolled": 141, "Capacity": 154, "Waitlisted": 0, "Subjects": ["BIOL"], "Courses": 3, "FillRate": 91.6}, {"Instructor": "Paul Ustach", "Sections": 5, "Enrolled": 139, "Capacity": 150, "Waitlisted": 0, "Subjects": ["BIOL"], "Courses": 2, "FillRate": 92.7}, {"Instructor": "Nena Hewette", "Sections": 5, "Enrolled": 131, "Capacity": 132, "Waitlisted": 0, "Subjects": ["BIOL"], "Courses": 3, "FillRate": 99.2}, {"Instructor": "Darin Brown", "Sections": 4, "Enrolled": 127, "Capacity": 150, "Waitlisted": 0, "Subjects": ["MATH"], "Courses": 3, "FillRate": 84.7}, {"Instructor": "Mary Ellison", "Sections": 4, "Enrolled": 120, "Capacity": 120, "Waitlisted": 0, "Subjects": ["CHEM"], "Courses": 1, "FillRate": 100.0}, {"Instructor": "Patricia Hammer", "Sections": 3, "Enrolled": 117, "Capacity": 120, "Waitlisted": 0, "Subjects": ["MATH"], "Courses": 2, "FillRate": 97.5}, {"Instructor": "Christopher Kim", "Sections": 4, "Enrolled": 117, "Capacity": 120, "Waitlisted": 0, "Subjects": ["CHEM"], "Courses": 2, "FillRate": 97.5}, {"Instructor": "Alicia Ricardez", "Sections": 4, "Enrolled": 113, "Capacity": 120, "Waitlisted": 0, "Subjects": ["CHEM"], "Courses": 2, "FillRate": 94.2}, {"Instructor": "Khanh-Tuoc Le", "Sections": 4, "Enrolled": 108, "Capacity": 110, "Waitlisted": 0, "Subjects": ["BIOL"], "Courses": 3, "FillRate": 98.2}, {"Instructor": "Suzanne Lindborg", "Sections": 4, "Enrolled": 107, "Capacity": 142, "Waitlisted": 0, "Subjects": ["MATH"], "Courses": 3, "FillRate": 75.4}, {"Instructor": "Rajanpreet Kaur", "Sections": 4, "Enrolled": 101, "Capacity": 140, "Waitlisted": 0, "Subjects": ["MATH"], "Courses": 4, "FillRate": 72.1}, {"Instructor": "Theron Sowers", "Sections": 3, "Enrolled": 94, "Capacity": 96, "Waitlisted": 0, "Subjects": ["GEOL"], "Courses": 2, "FillRate": 97.9}, {"Instructor": "Jacquelynn Schwegel", "Sections": 3, "Enrolled": 92, "Capacity": 120, "Waitlisted": 0, "Subjects": ["MATH"], "Courses": 3, "FillRate": 76.7}, {"Instructor": "Kenneth Yanow", "Sections": 2, "Enrolled": 90, "Capacity": 90, "Waitlisted": 0, "Subjects": ["GEOG"], "Courses": 1, "FillRate": 100.0}, {"Instructor": "Mark Deblois", "Sections": 2, "Enrolled": 88, "Capacity": 90, "Waitlisted": 0, "Subjects": ["GEOL"], "Courses": 2, "FillRate": 97.8}, {"Instructor": "Elizabeth Day", "Sections": 3, "Enrolled": 88, "Capacity": 95, "Waitlisted": 0, "Subjects": ["CHEM"], "Courses": 2, "FillRate": 92.6}, {"Instructor": "Danielle Yancey", "Sections": 3, "Enrolled": 84, "Capacity": 84, "Waitlisted": 0, "Subjects": ["BIOL"], "Courses": 1, "FillRate": 100.0}, {"Instructor": "Alla Gamarnik", "Sections": 3, "Enrolled": 83, "Capacity": 90, "Waitlisted": 0, "Subjects": ["CHEM"], "Courses": 1, "FillRate": 92.2}, {"Instructor": "Christopher Grissett", "Sections": 3, "Enrolled": 78, "Capacity": 84, "Waitlisted": 0, "Subjects": ["BIOL"], "Courses": 1, "FillRate": 92.9}, {"Instructor": "Mitchell Snyder", "Sections": 2, "Enrolled": 69, "Capacity": 75, "Waitlisted": 0, "Subjects": ["GEOG"], "Courses": 2, "FillRate": 92.0}, {"Instructor": "Elaina Aceves", "Sections": 2, "Enrolled": 67, "Capacity": 70, "Waitlisted": 0, "Subjects": ["MATH"], "Courses": 2, "FillRate": 95.7}, {"Instructor": "Gurpreet Deol", "Sections": 2, "Enrolled": 66, "Capacity": 70, "Waitlisted": 0, "Subjects": ["MATH"], "Courses": 2, "FillRate": 94.3}, {"Instructor": "Ferfina Garcia", "Sections": 2, "Enrolled": 49, "Capacity": 70, "Waitlisted": 0, "Subjects": ["MATH", "STAT"], "Courses": 2, "FillRate": 70.0}, {"Instructor": "Michael Caskey", "Sections": 1, "Enrolled": 45, "Capacity": 45, "Waitlisted": 0, "Subjects": ["CS"], "Courses": 1, "FillRate": 100.0}, {"Instructor": "Bao Guan", "Sections": 2, "Enrolled": 44, "Capacity": 70, "Waitlisted": 0, "Subjects": ["MATH", "STAT"], "Courses": 2, "FillRate": 62.9}, {"Instructor": "John Little", "Sections": 1, "Enrolled": 37, "Capacity": 40, "Waitlisted": 0, "Subjects": ["CHEM"], "Courses": 1, "FillRate": 92.5}, {"Instructor": "Vanessa Rangel", "Sections": 2, "Enrolled": 32, "Capacity": 37, "Waitlisted": 0, "Subjects": ["CHEM"], "Courses": 1, "FillRate": 86.5}, {"Instructor": "Katherine Schick", "Sections": 1, "Enrolled": 31, "Capacity": 31, "Waitlisted": 0, "Subjects": ["BIOL"], "Courses": 1, "FillRate": 100.0}, {"Instructor": "Halin Issavi", "Sections": 1, "Enrolled": 30, "Capacity": 30, "Waitlisted": 0, "Subjects": ["CHEM"], "Courses": 1, "FillRate": 100.0}, {"Instructor": "Philip Reedy", "Sections": 1, "Enrolled": 29, "Capacity": 32, "Waitlisted": 0, "Subjects": ["CHEM"], "Courses": 1, "FillRate": 90.6}, {"Instructor": "Abigail Analeigh Genelsa", "Sections": 1, "Enrolled": 29, "Capacity": 30, "Waitlisted": 0, "Subjects": ["BIOL"], "Courses": 1, "FillRate": 96.7}, {"Instructor": "Rajeev Pandey", "Sections": 1, "Enrolled": 27, "Capacity": 30, "Waitlisted": 0, "Subjects": ["CHEM"], "Courses": 1, "FillRate": 90.0}, {"Instructor": "Rebecca Rafique", "Sections": 1, "Enrolled": 24, "Capacity": 24, "Waitlisted": 0, "Subjects": ["BIOL"], "Courses": 1, "FillRate": 100.0}, {"Instructor": "Barbara Demmons", "Sections": 1, "Enrolled": 24, "Capacity": 30, "Waitlisted": 0, "Subjects": ["CHEM"], "Courses": 1, "FillRate": 80.0}, {"Instructor": "Deana Ceja", "Sections": 1, "Enrolled": 18, "Capacity": 45, "Waitlisted": 0, "Subjects": ["CS"], "Courses": 1, "FillRate": 40.0}, {"Instructor": "Tobey Colston", "Sections": 3, "Enrolled": 6, "Capacity": 88, "Waitlisted": 0, "Subjects": ["BIOL"], "Courses": 2, "FillRate": 6.8}];
+const SUMMARY = {"totalInstructors": 51, "totalSections": 181, "totalEnrolled": 5778, "totalCapacity": 6456, "overallFillRate": 89.5, "totalWaitlisted": 0};
+const SUBJECT_DATA = [{"Subject": "BIOL", "Sections": 49, "Enrolled": 1288}, {"Subject": "MATH", "Sections": 37, "Enrolled": 1190}, {"Subject": "CHEM", "Sections": 25, "Enrolled": 700}, {"Subject": "CS", "Sections": 25, "Enrolled": 953}, {"Subject": "STAT", "Sections": 13, "Enrolled": 463}, {"Subject": "GEOG", "Sections": 11, "Enrolled": 412}, {"Subject": "CSP", "Sections": 8, "Enrolled": 302}, {"Subject": "PHYSC", "Sections": 6, "Enrolled": 159}, {"Subject": "GEOL", "Sections": 5, "Enrolled": 182}, {"Subject": "ASTRO", "Sections": 1, "Enrolled": 93}, {"Subject": "CSC", "Sections": 1, "Enrolled": 36}];
+const SUBJECT_INSTRUCTORS = {"ASTRO": [{"Instructor": "Jacek Kostyrko", "Sections": 1, "Enrolled": 93}], "BIOL": [{"Instructor": "Robert Knudsen", "Sections": 7, "Enrolled": 200}, {"Instructor": "Jeffrey Bender", "Sections": 6, "Enrolled": 167}, {"Instructor": "Joshua Bradley", "Sections": 5, "Enrolled": 150}, {"Instructor": "Amir Assadi-Rad", "Sections": 5, "Enrolled": 141}, {"Instructor": "Paul Ustach", "Sections": 5, "Enrolled": 139}, {"Instructor": "Nena Hewette", "Sections": 5, "Enrolled": 131}, {"Instructor": "Khanh-Tuoc Le", "Sections": 4, "Enrolled": 108}, {"Instructor": "Danielle Yancey", "Sections": 3, "Enrolled": 84}, {"Instructor": "Christopher Grissett", "Sections": 3, "Enrolled": 78}, {"Instructor": "Katherine Schick", "Sections": 1, "Enrolled": 31}, {"Instructor": "Abigail Analeigh Genelsa", "Sections": 1, "Enrolled": 29}, {"Instructor": "Rebecca Rafique", "Sections": 1, "Enrolled": 24}, {"Instructor": "Tobey Colston", "Sections": 3, "Enrolled": 6}], "CHEM": [{"Instructor": "Mary Ellison", "Sections": 4, "Enrolled": 120}, {"Instructor": "Christopher Kim", "Sections": 4, "Enrolled": 117}, {"Instructor": "Alicia Ricardez", "Sections": 4, "Enrolled": 113}, {"Instructor": "Elizabeth Day", "Sections": 3, "Enrolled": 88}, {"Instructor": "Alla Gamarnik", "Sections": 3, "Enrolled": 83}, {"Instructor": "John Little", "Sections": 1, "Enrolled": 37}, {"Instructor": "Vanessa Rangel", "Sections": 2, "Enrolled": 32}, {"Instructor": "Halin Issavi", "Sections": 1, "Enrolled": 30}, {"Instructor": "Philip Reedy", "Sections": 1, "Enrolled": 29}, {"Instructor": "Rajeev Pandey", "Sections": 1, "Enrolled": 27}, {"Instructor": "Barbara Demmons", "Sections": 1, "Enrolled": 24}], "CS": [{"Instructor": "Omhier Khan", "Sections": 6, "Enrolled": 220}, {"Instructor": "Anthony Pacheco", "Sections": 5, "Enrolled": 195}, {"Instructor": "Master Maumalanga", "Sections": 5, "Enrolled": 189}, {"Instructor": "Li Zhang", "Sections": 4, "Enrolled": 173}, {"Instructor": "Luis Bustamante", "Sections": 3, "Enrolled": 113}, {"Instructor": "Michael Caskey", "Sections": 1, "Enrolled": 45}, {"Instructor": "Deana Ceja", "Sections": 1, "Enrolled": 18}], "CSC": [{"Instructor": "Anthony Pacheco", "Sections": 1, "Enrolled": 36}], "CSP": [{"Instructor": "Li Zhang", "Sections": 3, "Enrolled": 120}, {"Instructor": "Luis Bustamante", "Sections": 3, "Enrolled": 109}, {"Instructor": "Master Maumalanga", "Sections": 2, "Enrolled": 73}], "GEOG": [{"Instructor": "Dustin Tsai", "Sections": 7, "Enrolled": 253}, {"Instructor": "Kenneth Yanow", "Sections": 2, "Enrolled": 90}, {"Instructor": "Mitchell Snyder", "Sections": 2, "Enrolled": 69}], "GEOL": [{"Instructor": "Theron Sowers", "Sections": 3, "Enrolled": 94}, {"Instructor": "Mark Deblois", "Sections": 2, "Enrolled": 88}], "MATH": [{"Instructor": "Nick Bykov", "Sections": 4, "Enrolled": 137}, {"Instructor": "Darin Brown", "Sections": 4, "Enrolled": 127}, {"Instructor": "Patricia Hammer", "Sections": 3, "Enrolled": 117}, {"Instructor": "Jacek Kostyrko", "Sections": 3, "Enrolled": 111}, {"Instructor": "Suzanne Lindborg", "Sections": 4, "Enrolled": 107}, {"Instructor": "Christopher Williams", "Sections": 3, "Enrolled": 106}, {"Instructor": "Rajanpreet Kaur", "Sections": 4, "Enrolled": 101}, {"Instructor": "Jacquelynn Schwegel", "Sections": 3, "Enrolled": 92}, {"Instructor": "Gurmukh Singh", "Sections": 2, "Enrolled": 73}, {"Instructor": "Elaina Aceves", "Sections": 2, "Enrolled": 67}, {"Instructor": "Gurpreet Deol", "Sections": 2, "Enrolled": 66}, {"Instructor": "Jason Broyles", "Sections": 1, "Enrolled": 38}, {"Instructor": "Ferfina Garcia", "Sections": 1, "Enrolled": 30}, {"Instructor": "Bao Guan", "Sections": 1, "Enrolled": 18}], "PHYSC": [{"Instructor": "Daniel Birmingham", "Sections": 6, "Enrolled": 159}], "STAT": [{"Instructor": "Jason Broyles", "Sections": 4, "Enrolled": 156}, {"Instructor": "Gurmukh Singh", "Sections": 3, "Enrolled": 118}, {"Instructor": "Jacek Kostyrko", "Sections": 2, "Enrolled": 68}, {"Instructor": "Christopher Williams", "Sections": 1, "Enrolled": 38}, {"Instructor": "Nick Bykov", "Sections": 1, "Enrolled": 38}, {"Instructor": "Bao Guan", "Sections": 1, "Enrolled": 26}, {"Instructor": "Ferfina Garcia", "Sections": 1, "Enrolled": 19}]};
+
+(function(){
+  "use strict";
+
+  // ---------- Stat cards ----------
+  document.getElementById('stat-instructors').textContent = SUMMARY.totalInstructors;
+  document.getElementById('stat-sections').textContent = SUMMARY.totalSections;
+  document.getElementById('stat-enrolled').textContent = SUMMARY.totalEnrolled.toLocaleString();
+  document.getElementById('stat-capacity').textContent = SUMMARY.totalCapacity.toLocaleString();
+  document.getElementById('stat-fillrate').innerHTML = SUMMARY.overallFillRate + '<small>%</small>';
+
+  // ---------- Chart: top 15 by enrollment ----------
+  var chartHost = document.getElementById('chart-bars');
+  var top15 = INSTRUCTOR_DATA.slice().sort(function(a,b){ return b.Enrolled - a.Enrolled; }).slice(0, 15);
+  var maxEnrolled = top15.length ? top15[0].Enrolled : 1;
+  top15.forEach(function(d){
+    var row = document.createElement('div');
+    row.className = 'bar-row';
+    row.innerHTML =
+      '<div class="instr-name">' + d.Instructor + '<span class="instr-sub">' + d.Subjects.join(', ') + '</span></div>' +
+      '<div class="bar-track"><div class="bar-fill" data-pct="' + (100 * d.Enrolled / maxEnrolled).toFixed(1) + '"></div></div>' +
+      '<div class="bar-meta"><b>' + d.Enrolled + '</b> / ' + d.Capacity + ' seats &middot; ' + d.FillRate + '%</div>';
+    chartHost.appendChild(row);
+  });
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      document.querySelectorAll('.bar-fill').forEach(function(el){
+        el.style.width = el.getAttribute('data-pct') + '%';
+      });
+    });
+  });
+
+  // ---------- Table state ----------
+  var state = { search:'', subject:'', sortKey:'Enrolled', sortDir:-1 };
+
+  var subjectSel = document.getElementById('subject-filter');
+  var allSubjects = Array.from(new Set(INSTRUCTOR_DATA.reduce(function(acc,d){ return acc.concat(d.Subjects); }, []))).sort();
+  allSubjects.forEach(function(s){
+    var opt = document.createElement('option');
+    opt.value = s; opt.textContent = s;
+    subjectSel.appendChild(opt);
+  });
+
+  function getFiltered(){
+    var q = state.search.trim().toLowerCase();
+    return INSTRUCTOR_DATA.filter(function(d){
+      if (state.subject && d.Subjects.indexOf(state.subject) === -1) return false;
+      if (q && d.Instructor.toLowerCase().indexOf(q) === -1) return false;
+      return true;
+    });
+  }
+
+  function sortRows(rows){
+    var key = state.sortKey, dir = state.sortDir;
+    return rows.slice().sort(function(a,b){
+      var av = a[key], bv = b[key];
+      if (key === 'Subjects'){ av = a.Subjects.join(','); bv = b.Subjects.join(','); }
+      if (typeof av === 'string'){ return av.localeCompare(bv) * dir; }
+      return (av - bv) * dir;
+    });
+  }
+
+  function fillClass(pct){
+    if (pct >= 90) return 'fill-high';
+    if (pct >= 70) return 'fill-mid';
+    return 'fill-low';
+  }
+
+  var tbody = document.getElementById('table-body');
+  var countReadout = document.getElementById('count-readout');
+
+  function render(){
+    var rows = sortRows(getFiltered());
+    tbody.innerHTML = rows.map(function(d){
+      var subjChips = d.Subjects.map(function(s){ return '<span class="subject-chip">' + s + '</span>'; }).join('');
+      return '<tr>' +
+        '<td>' + d.Instructor + '</td>' +
+        '<td>' + subjChips + '</td>' +
+        '<td class="num">' + d.Courses + '</td>' +
+        '<td class="num">' + d.Sections + '</td>' +
+        '<td class="num">' + d.Enrolled + '</td>' +
+        '<td class="num">' + d.Capacity + '</td>' +
+        '<td class="num"><span class="fill-pill ' + fillClass(d.FillRate) + '">' + d.FillRate + '%</span></td>' +
+        '</tr>';
+    }).join('');
+    countReadout.textContent = rows.length + ' instructor' + (rows.length===1?'':'s') + ' shown';
+
+    document.querySelectorAll('thead th[data-key]').forEach(function(th){
+      th.classList.toggle('active', th.getAttribute('data-key') === state.sortKey);
+      var arrow = th.querySelector('.arrow');
+      if (th.getAttribute('data-key') === state.sortKey){
+        arrow.textContent = state.sortDir === 1 ? '\u25B2' : '\u25BC';
+      } else {
+        arrow.textContent = '';
+      }
+    });
+  }
+
+  document.getElementById('search-box').addEventListener('input', function(e){
+    state.search = e.target.value; render();
+  });
+  subjectSel.addEventListener('change', function(e){
+    var val = e.target.value;
+    donutState = val ? { level:'instr', subject: val } : { level:'subject', subject:null };
+    renderDonut();
+    state.subject = val; render();
+  });
+  document.querySelectorAll('thead th[data-key]').forEach(function(th){
+    th.addEventListener('click', function(){
+      var key = th.getAttribute('data-key');
+      if (state.sortKey === key){ state.sortDir *= -1; }
+      else { state.sortKey = key; state.sortDir = (key === 'Instructor' || key === 'Subjects') ? 1 : -1; }
+      render();
+    });
+  });
+
+  // ---------- Donut chart ----------
+  var SUBJECT_COLORS = ['#1a4480','#2a5ba8','#3f7dc9','#5aa0d8','#7ec4b4','#4a9d8f','#8a95a6','#647186','#9fb4d6','#3d6b91','#5c7a99'];
+  var SVG_NS = 'http://www.w3.org/2000/svg';
+  var donutState = { level:'subject', subject:null };
+  var donutSvg = document.getElementById('donut-svg');
+  var donutBack = document.getElementById('donut-back');
+  var donutCrumb = document.getElementById('donut-crumb');
+  var donutCenterValue = document.getElementById('donut-center-value');
+  var donutCenterLabel = document.getElementById('donut-center-label');
+  var donutLegend = document.getElementById('donut-legend');
+
+  var subjectColorMap = {};
+  SUBJECT_DATA.forEach(function(s, i){ subjectColorMap[s.Subject] = SUBJECT_COLORS[i % SUBJECT_COLORS.length]; });
+
+  function subjectDistribution(){
+    return SUBJECT_DATA.map(function(s){
+      return { label:s.Subject, count:s.Sections, sub:s.Enrolled + ' enrolled', color:subjectColorMap[s.Subject] };
+    });
+  }
+  function instructorDistribution(subject){
+    var rows = SUBJECT_INSTRUCTORS[subject] || [];
+    return rows.map(function(r, i){
+      return { label:r.Instructor, count:r.Sections, sub:r.Enrolled + ' enrolled', color:SUBJECT_COLORS[i % SUBJECT_COLORS.length] };
+    });
+  }
+  function polarToCartesian(cx,cy,r,angleDeg){
+    var a = (angleDeg - 90) * Math.PI / 180;
+    return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
+  }
+  function donutSlicePath(cx,cy,rOuter,rInner,startAngle,endAngle){
+    var a0 = polarToCartesian(cx,cy,rOuter,endAngle);
+    var a1 = polarToCartesian(cx,cy,rOuter,startAngle);
+    var b0 = polarToCartesian(cx,cy,rInner,endAngle);
+    var b1 = polarToCartesian(cx,cy,rInner,startAngle);
+    var largeArc = (endAngle - startAngle) > 180 ? 1 : 0;
+    return [
+      'M', a0.x, a0.y,
+      'A', rOuter, rOuter, 0, largeArc, 0, a1.x, a1.y,
+      'L', b1.x, b1.y,
+      'A', rInner, rInner, 0, largeArc, 1, b0.x, b0.y,
+      'Z'
+    ].join(' ');
+  }
+
+  function renderDonut(){
+    var data = donutState.level === 'subject' ? subjectDistribution() : instructorDistribution(donutState.subject);
+    var total = data.reduce(function(s,d){ return s + d.count; }, 0);
+    var cx = 120, cy = 120, rOuter = 100, rInner = 62;
+    var gap = data.length > 1 ? 1.6 : 0;
+    var angle = 0;
+
+    donutSvg.innerHTML = '';
+    data.forEach(function(d){
+      var sweep = total ? 360 * d.count / total : 0;
+      var end = angle + Math.max(sweep - gap, 0);
+      var path = document.createElementNS(SVG_NS, 'path');
+      path.setAttribute('d', donutSlicePath(cx, cy, rOuter, rInner, angle, end));
+      path.setAttribute('fill', d.color);
+      path.setAttribute('class', 'donut-slice');
+      if (donutState.level === 'subject'){
+        path.style.cursor = 'pointer';
+        path.addEventListener('click', function(){ drillIntoSubject(d.label); });
+      }
+      var title = document.createElementNS(SVG_NS, 'title');
+      title.textContent = d.label + ': ' + d.count + ' section' + (d.count===1?'':'s') + ' (' + Math.round(100*d.count/(total||1)) + '%), ' + d.sub;
+      path.appendChild(title);
+      donutSvg.appendChild(path);
+      angle += sweep;
+    });
+
+    donutCenterValue.textContent = total;
+    donutCenterLabel.textContent = donutState.level === 'subject' ? 'Sections total' : donutState.subject;
+    donutBack.hidden = donutState.level === 'subject';
+    donutCrumb.textContent = donutState.level === 'subject' ? 'All Subjects' : (donutState.subject + ' \u00b7 by instructor');
+
+    donutLegend.innerHTML = data.map(function(d){
+      return '<li class="legend-item" data-label="' + d.label + '"' + (donutState.level==='subject' ? ' style="cursor:pointer"' : '') + '>' +
+        '<i class="swatch" style="width:11px;height:11px;border-radius:3px;display:inline-block;background:' + d.color + '"></i>' +
+        '<span class="legend-name">' + d.label + '</span>' +
+        '<span class="legend-count">' + d.count + '</span></li>';
+    }).join('');
+    if (donutState.level === 'subject'){
+      donutLegend.querySelectorAll('.legend-item').forEach(function(li){
+        li.addEventListener('click', function(){ drillIntoSubject(li.getAttribute('data-label')); });
+      });
+    }
+  }
+
+  function drillIntoSubject(subject){
+    donutState = { level:'instr', subject:subject };
+    renderDonut();
+    setSubjectFilter(subject);
+  }
+  function drillUp(){
+    donutState = { level:'subject', subject:null };
+    renderDonut();
+    setSubjectFilter('');
+  }
+  function setSubjectFilter(subject){
+    state.subject = subject;
+    subjectSel.value = subject;
+    render();
+  }
+  donutBack.addEventListener('click', drillUp);
+
+  // ---------- Sidebar scrollspy ----------
+  (function(){
+    var navLinks = Array.prototype.slice.call(document.querySelectorAll('.side-link'));
+    var spySections = ['overview','chart-section','table-section']
+      .map(function(id){ return document.getElementById(id); })
+      .filter(Boolean);
+    if ('IntersectionObserver' in window && spySections.length){
+      var spy = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting){
+            var id = entry.target.id;
+            navLinks.forEach(function(a){
+              a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+            });
+          }
+        });
+      }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
+      spySections.forEach(function(sec){ spy.observe(sec); });
+    }
+  })();
+
+  renderDonut();
+  render();
+
+  // ---------- Theme toggle ----------
+  (function(){
+    var STORAGE_KEY = 'sjdc-theme';
+    var root = document.documentElement;
+    var btn = document.getElementById('theme-toggle');
+    var label = document.getElementById('theme-toggle-text');
+    var mql = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+    var hasStoredPref;
+    try { hasStoredPref = localStorage.getItem(STORAGE_KEY) !== null; } catch (e) { hasStoredPref = false; }
+
+    function applyUI(theme){
+      btn.classList.toggle('is-dark', theme === 'dark');
+      btn.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+      label.textContent = theme === 'dark' ? 'Dark' : 'Light';
+    }
+    applyUI(root.getAttribute('data-theme') || 'light');
+
+    btn.addEventListener('click', function(){
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      applyUI(next);
+      hasStoredPref = true;
+      try { localStorage.setItem(STORAGE_KEY, next); } catch (e){ /* storage unavailable; theme still applies for this session */ }
+    });
+
+    if (mql && !hasStoredPref){
+      var onSystemChange = function(e){
+        if (hasStoredPref) return;
+        var theme = e.matches ? 'dark' : 'light';
+        root.setAttribute('data-theme', theme);
+        applyUI(theme);
+      };
+      if (mql.addEventListener) mql.addEventListener('change', onSystemChange);
+      else if (mql.addListener) mql.addListener(onSystemChange);
+    }
+  })();
+
+  // ---------- AI assistant panel ----------
+  (function(){
+    var trigger = document.getElementById('ai-trigger');
+    var closeBtn = document.getElementById('ai-close');
+    var backdrop = document.getElementById('ai-backdrop');
+    var panel = document.getElementById('ai-panel');
+    var messagesHost = document.getElementById('ai-messages');
+    var emptyState = document.getElementById('ai-empty');
+    var input = document.getElementById('ai-input');
+    var sendBtn = document.getElementById('ai-send');
+    var history = [];
+    var busy = false;
+
+    var SYSTEM_PROMPT =
+      'You are a data assistant embedded in a dashboard about San Joaquin Delta College\'s Spring 2026 (term 2263) schedule of classes. ' +
+      'Answer questions using ONLY the dataset below \u2014 do not invent instructors, subjects, or numbers that are not present in it. ' +
+      'Counts reflect "Enrollment Section" rows only (the enrollment-of-record component per class), so paired lecture/lab rows are not double-counted. ' +
+      'Cancelled and tentative sections carry no instructor and are excluded from these figures. ' +
+      'Keep answers short (a few sentences, or a brief plain-text list) \u2014 this is a small chat panel, not a report. ' +
+      'If something can\'t be answered from this dataset, say so plainly instead of guessing.\n\n' +
+      'TERM SUMMARY:\n' + JSON.stringify(SUMMARY) + '\n\n' +
+      'SECTIONS AND ENROLLMENT BY SUBJECT:\n' + JSON.stringify(SUBJECT_DATA) + '\n\n' +
+      'PER-INSTRUCTOR SUMMARY (Instructor, Subjects, Courses, Sections, Enrolled, Capacity, FillRate%):\n' + JSON.stringify(INSTRUCTOR_DATA);
+
+    function openPanel(){
+      panel.classList.add('open');
+      backdrop.classList.add('open');
+      panel.setAttribute('aria-hidden','false');
+      trigger.setAttribute('aria-expanded','true');
+      setTimeout(function(){ input.focus(); }, 200);
+    }
+    function closePanel(){
+      panel.classList.remove('open');
+      backdrop.classList.remove('open');
+      panel.setAttribute('aria-hidden','true');
+      trigger.setAttribute('aria-expanded','false');
+    }
+    trigger.addEventListener('click', function(){
+      panel.classList.contains('open') ? closePanel() : openPanel();
+    });
+    closeBtn.addEventListener('click', closePanel);
+    backdrop.addEventListener('click', closePanel);
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && panel.classList.contains('open')) closePanel();
+    });
+
+    function addBubble(role, text){
+      if (emptyState) { emptyState.remove(); emptyState = null; }
+      var el = document.createElement('div');
+      el.className = 'ai-msg ' + role;
+      el.textContent = text;
+      messagesHost.appendChild(el);
+      messagesHost.scrollTop = messagesHost.scrollHeight;
+      return el;
+    }
+    function addTyping(){
+      var el = document.createElement('div');
+      el.className = 'ai-typing';
+      el.id = 'ai-typing-indicator';
+      el.innerHTML = '<span></span><span></span><span></span>';
+      messagesHost.appendChild(el);
+      messagesHost.scrollTop = messagesHost.scrollHeight;
+    }
+    function removeTyping(){
+      var el = document.getElementById('ai-typing-indicator');
+      if (el) el.remove();
+    }
+
+    function autosize(){
+      input.style.height = 'auto';
+      input.style.height = Math.min(input.scrollHeight, 90) + 'px';
+    }
+    input.addEventListener('input', autosize);
+    input.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' && !e.shiftKey){
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+    sendBtn.addEventListener('click', sendMessage);
+    document.querySelectorAll('.ai-suggest button').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        input.value = btn.getAttribute('data-q');
+        sendMessage();
+      });
+    });
+
+    function sendMessage(){
+      var text = input.value.trim();
+      if (!text || busy) return;
+      addBubble('user', text);
+      history.push({ role:'user', content: text });
+      input.value = '';
+      autosize();
+      busy = true;
+      sendBtn.disabled = true;
+      addTyping();
+
+      fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 1000,
+          system: SYSTEM_PROMPT,
+          messages: history
+        })
+      })
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        removeTyping();
+        var textBlocks = (data.content || []).filter(function(b){ return b.type === 'text'; }).map(function(b){ return b.text; });
+        var reply = textBlocks.join('\n').trim();
+        if (!reply){
+          addBubble('error', 'Sorry, I couldn\'t generate an answer just now. Please try again.');
+        } else {
+          addBubble('assistant', reply);
+          history.push({ role:'assistant', content: reply });
+        }
+      })
+      .catch(function(){
+        removeTyping();
+        addBubble('error', 'Sorry, something went wrong reaching the assistant. Please try again.');
+      })
+      .finally(function(){
+        busy = false;
+        sendBtn.disabled = false;
+      });
+    }
+  })();
+})();
+
+</script>
+</body>
+</html>
